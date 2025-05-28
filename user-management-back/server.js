@@ -16,11 +16,11 @@ const db = mysql.createPool({
 
 db.getConnection()
   .then((conn) => {
-    console.log("✔ Connected to remote MySQL");
+    console.log("Connected to remote MySQL");
     conn.release();
   })
   .catch((err) => {
-    console.error("❌ MySQL Connection Error:", err.message);
+    console.error("MySQL Connection Error:", err.message);
     process.exit(1);
   });
 
@@ -29,11 +29,14 @@ const userRoutes = require("./routes/users")(db);
 const authMiddleware = require("./middleware/authMiddleware");
 
 app.use(express.json());
-const allowed = process.env.CORS_ORIGIN.split(",");
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://user-management-ui-ngv0.onrender.com",
+];
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowed.includes(origin)) return cb(null, true);
+      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
       cb(new Error("Not allowed by CORS"));
     },
   })
