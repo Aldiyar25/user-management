@@ -29,7 +29,15 @@ const userRoutes = require("./routes/users")(db);
 const authMiddleware = require("./middleware/authMiddleware");
 
 app.use(express.json());
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+const allowed = process.env.CORS_ORIGIN.split(",");
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin || allowed.includes(origin)) return cb(null, true);
+      cb(new Error("Not allowed by CORS"));
+    },
+  })
+);
 app.use("/api", authRoutes);
 app.use("/api/users", authMiddleware(db), userRoutes);
 
