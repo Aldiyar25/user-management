@@ -15,7 +15,11 @@ function RegisterPage() {
     e.preventDefault();
     setError("");
     try {
-      await axios.post(`${API_URL}/register`, { name, email, password });
+      await axios.post(
+        `${API_URL}/register`,
+        { name, email, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
       setSuccess("Successful registration! Redirecting to login...");
       setName("");
       setEmail("");

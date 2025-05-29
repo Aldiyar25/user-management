@@ -13,7 +13,11 @@ function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post(`${API_URL}/login`, { email, password });
+      const res = await axios.post(
+        `${API_URL}/login`,
+        { email, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
       const token = res.data.token;
       localStorage.setItem("token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

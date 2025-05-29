@@ -1,4 +1,3 @@
-// server.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -21,28 +20,33 @@ const db = mysql.createPool({
 
 db.getConnection()
   .then((conn) => {
-    console.log("✔ Connected to MySQL");
+    console.log(" Connected to MySQL");
     conn.release();
   })
   .catch((err) => {
-    console.error("✖ MySQL Connection Error:", err.message);
+    console.error(" MySQL Connection Error:", err.message);
     process.exit(1);
   });
 
-// CORS
-const allowed = process.env.CORS_ORIGIN.split(",").map((s) => s.trim());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://user-management-ui-ngv0.onrender.com",
+];
+
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || allowed.includes(origin)) return cb(null, true);
-      cb(new Error("Not allowed by CORS"));
+      if (!origin || allowedOrigins.includes(origin)) {
+        cb(null, true);
+      } else {
+        cb(new Error("Not allowed by CORS"));
+      }
     },
   })
 );
 
 app.use(express.json());
 
-// Routes
 const authRoutes = require("./routes/auth")(db);
 const userRoutes = require("./routes/users")(db);
 const authMiddleware = require("./middleware/authMiddleware")(db);
@@ -51,5 +55,5 @@ app.use("/api", authRoutes);
 app.use("/api/users", authMiddleware, userRoutes);
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });
