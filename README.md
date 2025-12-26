@@ -104,11 +104,10 @@ Node.js (версии 18 или новее)
 Сервер MySQL
 
 Настройка базы данных
-Создайте базу данных и таблицу users. Таблица должна иметь уникальный индекс по колонке email, чтобы гарантировать уникальность адресов даже при параллельных запросах. Пример схемы:
+Создайте базу данных и таблицу users. Таблица должна иметь уникальный индекс по колонке email, чтобы гарантировать уникальность адресов даже при параллельных запросах. 
 
+Пример схемы:
 sql
-Копировать
-Редактировать
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -124,8 +123,6 @@ CREATE TABLE users (
 user-management-back/.env (пример значений):
 
 ini
-Копировать
-Редактировать
 DB_HOST=your_host
 DB_PORT=3306
 DB_USER=your_user
@@ -136,24 +133,15 @@ CORS_ORIGIN=http://localhost:3000
 PORT=5000
 user-management-ui/.env:
 
-bash
-Копировать
-Редактировать
 VITE_API_URL=http://localhost:5000/api
 Установка
 Бэкенд
 
-bash
-Копировать
-Редактировать
 cd user-management-back
 npm install
 node server.js
 Фронтенд
 
-bash
-Копировать
-Редактировать
 cd ../user-management-ui
 npm install
 npm run dev
